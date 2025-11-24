@@ -9,6 +9,7 @@ import { toast } from "sonner"
 import axios from "@/lib/axios"
 import { useNavigate } from "react-router-dom"
 import { BaseUrl } from "@/lib/BaseUrl"
+import { getImageUrl } from "@/lib/utils"
 
 export default function ProfilePage() {
     const [user, setUser] = useState(null)
@@ -39,7 +40,7 @@ export default function ProfilePage() {
                     confirmPassword: ""
                 })
                 if (parsedUser.imagen) {
-                    setImagePreview(`${BaseUrl}/uploads/${parsedUser.imagen}`)
+                    setImagePreview(getImageUrl(parsedUser.imagen))
                 }
             } catch (e) {
                 console.error("Error parsing user from local storage", e)
