@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 import BusCarousel from "@/components/BusCarousel"
 import SparePartsCarousel from "@/components/SparePartsCarousel"
 import { BaseUrl } from "@/lib/BaseUrl"
-import icon from '../../src/components/Icon';
+import icon from '@/components/Icon';
 
 
 export default function LandingPage() {
