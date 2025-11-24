@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { Plus, Search, Pencil, Trash2, Download, QrCode } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { BaseUrl } from "@/lib/BaseUrl"
 import {
     Table,
     TableBody,
@@ -97,7 +98,7 @@ export default function InventoryPage() {
             // Imagen del vehículo con borde redondeado
             if (bus.imagen) {
                 try {
-                    const imgUrl = `http://localhost:4000/uploads/${bus.imagen}`
+                    const imgUrl = `${BaseUrl}/uploads/${bus.imagen}`
                     const img = new Image()
                     img.crossOrigin = 'anonymous'
                     await new Promise((resolve) => {
@@ -266,7 +267,7 @@ export default function InventoryPage() {
                                     <TableCell>
                                         <div className="w-40 h-28 bg-gray-100 rounded-lg overflow-hidden border border-gray-200 flex items-center justify-center">
                                             <img
-                                                src={bus.imagen ? `http://localhost:4000/uploads/${bus.imagen}` : "/images/placeholder-bus.png"}
+                                                src={bus.imagen ? `${BaseUrl}/uploads/${bus.imagen}` : "/images/placeholder-bus.png"}
                                                 alt={bus.modelo}
                                                 className="w-full h-full object-cover"
                                             />

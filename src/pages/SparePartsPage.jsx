@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { Plus, Search, Pencil, Trash2, Download, Upload, FileSpreadsheet, Package } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { BaseUrl } from "@/lib/BaseUrl"
 import {
     Table,
     TableBody,
@@ -95,7 +96,7 @@ export default function SparePartsPage() {
 
                 if (part.imagen) {
                     try {
-                        const imageUrl = `http://localhost:4000/uploads/${part.imagen}`
+                        const imageUrl = `${BaseUrl}/uploads/${part.imagen}`
                         const response = await fetch(imageUrl)
                         const buffer = await response.arrayBuffer()
 
@@ -333,7 +334,7 @@ export default function SparePartsPage() {
                                         <div className="w-16 h-16 bg-gray-100 rounded-md overflow-hidden border border-gray-200 flex items-center justify-center">
                                             {part.imagen ? (
                                                 <img
-                                                    src={`http://localhost:4000/uploads/${part.imagen}`}
+                                                    src={`${BaseUrl}/uploads/${part.imagen}`}
                                                     alt={part.nombre}
                                                     className="w-full h-full object-cover"
                                                     onError={(e) => {

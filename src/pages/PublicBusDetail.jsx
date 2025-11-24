@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Bus, Cog, Info, ExternalLink, Home } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import { BaseUrl } from "@/lib/BaseUrl"
 
 export default function PublicBusDetail() {
     const { id } = useParams();
@@ -14,7 +15,7 @@ export default function PublicBusDetail() {
     useEffect(() => {
         const fetchBus = async () => {
             try {
-                const response = await fetch(`http://localhost:4000/autobuses/${id}`);
+                const response = await fetch(`${BaseUrl}/autobuses/${id}`);
                 if (!response.ok) {
                     throw new Error("No se pudo cargar la información del autobús");
                 }
@@ -97,7 +98,7 @@ export default function PublicBusDetail() {
                         <Card className="overflow-hidden shadow-lg">
                             <div className="aspect-video relative bg-muted">
                                 <img
-                                    src={bus.imagen ? `http://localhost:4000/uploads/${bus.imagen}` : "/images/placeholder-bus.png"}
+                                    src={bus.imagen ? `${BaseUrl}/uploads/${bus.imagen}` : "/images/placeholder-bus.png"}
                                     alt={`${bus.marca} ${bus.modelo}`}
                                     className="object-cover w-full h-full"
                                 />

@@ -5,6 +5,7 @@ import { Download, ArrowLeft, Printer, QrCode as QrIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
+import { BaseUrl } from "@/lib/BaseUrl"
 
 export default function QRCodePage() {
     const { id } = useParams()
@@ -23,7 +24,7 @@ export default function QRCodePage() {
 
     const fetchBusData = async () => {
         try {
-            const response = await fetch(`http://localhost:4000/autobuses/${id}`)
+            const response = await fetch(`${BaseUrl}/autobuses/${id}`)
             if (response.ok) {
                 const data = await response.json()
                 setBus(data)
@@ -199,7 +200,7 @@ export default function QRCodePage() {
                         {bus.imagen && (
                             <div className="w-full bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden flex items-center justify-center h-80">
                                 <img
-                                    src={`http://localhost:4000/uploads/${bus.imagen}`}
+                                    src={`${BaseUrl}/uploads/${bus.imagen}`}
                                     alt={bus.modelo}
                                     className="w-full h-full object-cover"
                                 />

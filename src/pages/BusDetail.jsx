@@ -22,6 +22,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
+import { BaseUrl } from "@/lib/BaseUrl"
 
 const formSchema = z.object({
     modelo: z.string().min(2, "El nombre del modelo es requerido"),
@@ -70,7 +71,7 @@ export default function BusDetail() {
 
     const fetchBusData = async () => {
         try {
-            const response = await fetch(`http://localhost:4000/autobuses/${id}`)
+            const response = await fetch(`${BaseUrl}/autobuses/${id}`)
             if (response.ok) {
                 const data = await response.json()
                 form.reset({
@@ -87,7 +88,7 @@ export default function BusDetail() {
                     direccion: data.direccion || "",
                 })
                 if (data.imagen) {
-                    setImagePreview(`http://localhost:4000/uploads/${data.imagen}`)
+                    setImagePreview(`${BaseUrl}/uploads/${data.imagen}`)
                 }
             }
         } catch (error) {
@@ -120,8 +121,8 @@ export default function BusDetail() {
             }
 
             const url = isEditMode
-                ? `http://localhost:4000/autobuses/${id}`
-                : "http://localhost:4000/autobuses"
+                ? `${BaseUrl}/autobuses/${id}`
+                : `${BaseUrl}/autobuses`
 
             const method = isEditMode ? "PUT" : "POST"
 

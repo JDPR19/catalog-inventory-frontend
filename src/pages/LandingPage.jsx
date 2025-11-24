@@ -7,6 +7,7 @@ import SparePartsCarousel from "@/components/SparePartsCarousel"
 import { BaseUrl } from "@/lib/BaseUrl"
 import icon from '../../src/components/Icon';
 
+
 export default function LandingPage() {
     const [buses, setBuses] = useState([]);
     const [spareParts, setSpareParts] = useState([]);

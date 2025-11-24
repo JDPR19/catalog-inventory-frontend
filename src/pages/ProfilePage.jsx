@@ -8,6 +8,7 @@ import { Upload, User, Mail, Lock, Save } from "lucide-react"
 import { toast } from "sonner"
 import axios from "@/lib/axios"
 import { useNavigate } from "react-router-dom"
+import { BaseUrl } from "@/lib/BaseUrl"
 
 export default function ProfilePage() {
     const [user, setUser] = useState(null)
@@ -38,7 +39,7 @@ export default function ProfilePage() {
                     confirmPassword: ""
                 })
                 if (parsedUser.imagen) {
-                    setImagePreview(`http://localhost:4000/uploads/${parsedUser.imagen}`)
+                    setImagePreview(`${BaseUrl}/uploads/${parsedUser.imagen}`)
                 }
             } catch (e) {
                 console.error("Error parsing user from local storage", e)
