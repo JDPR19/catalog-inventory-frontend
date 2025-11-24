@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom"
-import { LayoutDashboard, Bus, FileText, Settings, Bell, User, LogOut, Wrench } from "lucide-react"
+import { LayoutDashboard, Bus, FileText, Settings, Bell, User, LogOut, Wrench, Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
@@ -10,6 +10,13 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import {
+    Sheet,
+    SheetContent,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from "@/components/ui/sheet"
 import { ModeToggle } from "@/components/mode-toggle"
 import { useEffect, useState } from "react"
 import icon from "@/components/Icon"
@@ -20,6 +27,7 @@ export default function DashboardLayout() {
     const location = useLocation()
     const navigate = useNavigate()
     const [user, setUser] = useState(null)
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
     useEffect(() => {
         const loadUser = () => {
@@ -52,9 +60,39 @@ export default function DashboardLayout() {
         return location.pathname === path ? "bg-primary/10 text-primary" : "text-muted-foreground hover:bg-muted hover:text-foreground"
     }
 
+    const NavLinks = ({ onLinkClick }) => (
+        <>
+            <Link
+                to="/dashboard"
+                className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive('/dashboard')}`}
+                onClick={onLinkClick}
+            >
+                <LayoutDashboard className="w-4 h-4" />
+                Dashboard
+            </Link>
+
+            <Link
+                to="/dashboard/inventory"
+                className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive('/dashboard/inventory')}`}
+                onClick={onLinkClick}
+            >
+                <Bus className="w-4 h-4" />
+                Inventario
+            </Link>
+
+            <Link
+                to="/dashboard/repuestos"
+                className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive('/dashboard/repuestos')}`}
+                onClick={onLinkClick}
+            >
+                <Wrench className="w-4 h-4" />
+                Repuestos
+            </Link>
+        </>
+    )
+
     return (
         <div className="min-h-screen flex bg-background">
-            {/* Sidebar */}
             <aside className="w-64 border-r bg-card hidden md:flex flex-col">
                 <div className="h-16 flex items-center px-6 border-b">
                     <div className="flex items-center gap-2">
@@ -67,26 +105,7 @@ export default function DashboardLayout() {
 
                 <div className="flex-1 py-6 px-4 space-y-1">
                     <p className="px-2 text-xs font-semibold text-muted-foreground mb-2">Panel de Admin</p>
-
-                    <Link to="/dashboard" className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive('/dashboard')}`}>
-                        <LayoutDashboard className="w-4 h-4" />
-                        Dashboard
-                    </Link>
-
-                    <Link to="/dashboard/inventory" className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive('/dashboard/inventory')}`}>
-                        <Bus className="w-4 h-4" />
-                        Inventario
-                    </Link>
-
-                    <Link to="/dashboard/repuestos" className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive('/dashboard/repuestos')}`}>
-                        <Wrench className="w-4 h-4" />
-                        Repuestos
-                    </Link>
-
-                    {/* <Link to="/dashboard/reports" className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive('/dashboard/reports')}`}>
-                        <FileText className="w-4 h-4" />
-                        Reportes
-                    </Link> */}
+                    <NavLinks onLinkClick={() => { }} />
                 </div>
 
                 <div className="p-4 border-t">
@@ -97,15 +116,55 @@ export default function DashboardLayout() {
                 </div>
             </aside>
 
+            {/* Mobile Navigation Sheet */}
+            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+                <SheetContent side="left" className="w-64 p-0">
+                    <SheetHeader className="h-16 flex items-center px-6 border-b">
+                        <div className="flex items-center gap-2">
+                            <div className="h-12 w-12 flex items-center justify-center overflow-hidden rounded-lg bg-white p-1 flex-shrink-0">
+                                <img src={icon.logo} alt="Logo Yutong" className="h-full w-full object-contain" />
+                            </div>
+                            <SheetTitle className="font-bold">Catalog Inventory</SheetTitle>
+                        </div>
+                    </SheetHeader>
+                    <div className="flex-1 py-6 px-4 space-y-1">
+                        <p className="px-2 text-xs font-semibold text-muted-foreground mb-2">Panel de Admin</p>
+                        <NavLinks onLinkClick={() => setMobileMenuOpen(false)} />
+                    </div>
+                    <div className="p-4 border-t">
+                        <Link
+                            to="/dashboard/profile"
+                            className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive('/dashboard/profile')}`}
+                            onClick={() => setMobileMenuOpen(false)}
+                        >
+                            <User className="w-4 h-4" />
+                            Mi Perfil
+                        </Link>
+                    </div>
+                </SheetContent>
+            </Sheet>
+
             {/* Main Content */}
             <div className="flex-1 flex flex-col">
                 {/* Topbar */}
                 <header className="h-16 border-b bg-card flex items-center justify-between px-6">
-                    <h1 className="font-semibold text-lg">
-                        {location.pathname.includes('inventory') ? 'Gestión de Flota' :
-                            location.pathname.includes('repuestos') ? 'Catálogo de Repuestos' :
-                                location.pathname.includes('profile') ? 'Perfil de Usuario' : 'Dashboard'}
-                    </h1>
+                    <div className="flex items-center gap-4">
+                        {/* Mobile Menu Button */}
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            className="md:hidden"
+                            onClick={() => setMobileMenuOpen(true)}
+                        >
+                            <Menu className="h-5 w-5" />
+                        </Button>
+
+                        <h1 className="font-semibold text-lg">
+                            {location.pathname.includes('inventory') ? 'Gestión de Flota' :
+                                location.pathname.includes('repuestos') ? 'Catálogo de Repuestos' :
+                                    location.pathname.includes('profile') ? 'Perfil de Usuario' : 'Dashboard'}
+                        </h1>
+                    </div>
 
                     <div className="flex items-center gap-4">
                         <ModeToggle />
