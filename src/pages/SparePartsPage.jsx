@@ -4,6 +4,7 @@ import { Plus, Search, Pencil, Trash2, Download, Upload, FileSpreadsheet, Packag
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { BaseUrl } from "@/lib/BaseUrl"
+import { getImageUrl } from "@/lib/utils"
 import {
     Table,
     TableBody,
@@ -96,7 +97,7 @@ export default function SparePartsPage() {
 
                 if (part.imagen) {
                     try {
-                        const imageUrl = `${BaseUrl}/uploads/${part.imagen}`
+                        const imageUrl = getImageUrl(part.imagen)
                         const response = await fetch(imageUrl)
                         const buffer = await response.arrayBuffer()
 
@@ -334,7 +335,7 @@ export default function SparePartsPage() {
                                         <div className="w-16 h-16 bg-gray-100 rounded-md overflow-hidden border border-gray-200 flex items-center justify-center">
                                             {part.imagen ? (
                                                 <img
-                                                    src={`${BaseUrl}/uploads/${part.imagen}`}
+                                                    src={getImageUrl(part.imagen)}
                                                     alt={part.nombre}
                                                     className="w-full h-full object-cover"
                                                     onError={(e) => {

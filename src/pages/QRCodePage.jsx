@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { BaseUrl } from "@/lib/BaseUrl"
+import { getImageUrl } from "@/lib/utils"
 
 export default function QRCodePage() {
     const { id } = useParams()
@@ -200,7 +201,7 @@ export default function QRCodePage() {
                         {bus.imagen && (
                             <div className="w-full bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden flex items-center justify-center h-80">
                                 <img
-                                    src={`${BaseUrl}/uploads/${bus.imagen}`}
+                                    src={getImageUrl(bus.imagen)}
                                     alt={bus.modelo}
                                     className="w-full h-full object-cover"
                                 />
@@ -343,4 +344,3 @@ export default function QRCodePage() {
         </div>
     )
 }
-

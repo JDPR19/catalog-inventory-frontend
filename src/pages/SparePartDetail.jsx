@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { BaseUrl } from "@/lib/BaseUrl"
+import { getImageUrl } from "@/lib/utils"
 
 import axios from "@/lib/axios"
 import { toast } from "sonner"
@@ -55,7 +56,7 @@ export default function SparePartDetail() {
                 imagen: null // Don't set file object, just keep reference if needed or handle preview
             })
             if (data.imagen) {
-                setPreviewUrl(`${BaseUrl}/uploads/${data.imagen}`)
+                setPreviewUrl(getImageUrl(data.imagen))
             }
         } catch (error) {
             console.error("Error fetching part:", error)

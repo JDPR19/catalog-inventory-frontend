@@ -23,6 +23,7 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import { BaseUrl } from "@/lib/BaseUrl"
+import { getImageUrl } from "@/lib/utils"
 
 const formSchema = z.object({
     modelo: z.string().min(2, "El nombre del modelo es requerido"),
@@ -88,7 +89,7 @@ export default function BusDetail() {
                     direccion: data.direccion || "",
                 })
                 if (data.imagen) {
-                    setImagePreview(`${BaseUrl}/uploads/${data.imagen}`)
+                    setImagePreview(getImageUrl(data.imagen))
                 }
             }
         } catch (error) {
