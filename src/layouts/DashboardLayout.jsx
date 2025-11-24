@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { ModeToggle } from "@/components/mode-toggle"
 import { useEffect, useState } from "react"
-import icon from "../../src/components/icon.jsx"
+import icon from "@/components/Icon"
 
 export default function DashboardLayout() {
     const location = useLocation()
