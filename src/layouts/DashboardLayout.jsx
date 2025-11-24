@@ -14,6 +14,7 @@ import { ModeToggle } from "@/components/mode-toggle"
 import { useEffect, useState } from "react"
 import icon from "@/components/Icon"
 import { BaseUrl } from "@/lib/BaseUrl"
+import { getImageUrl } from "@/lib/utils"
 
 export default function DashboardLayout() {
     const location = useLocation()
@@ -117,7 +118,7 @@ export default function DashboardLayout() {
                                 <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                                     <Avatar className="h-8 w-8">
                                         <AvatarImage
-                                            src={user?.imagen ? `${BaseUrl}/uploads/${user.imagen}` : undefined}
+                                            src={getImageUrl(user?.imagen)}
                                             alt={user?.nombre}
                                             className="object-cover"
                                         />
