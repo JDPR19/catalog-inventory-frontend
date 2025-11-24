@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Link } from "react-router-dom"
 import { BaseUrl } from "@/lib/BaseUrl"
+import { getImageUrl } from "@/lib/utils"
 
 export default function BusCarousel({ buses }) {
     const [emblaRef, emblaApi] = useEmblaCarousel(
@@ -55,11 +56,7 @@ export default function BusCarousel({ buses }) {
                         >
                             <div className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all h-[450px]">
                                 <img
-                                    src={
-                                        bus.imagen
-                                            ? `${BaseUrl}/uploads/${bus.imagen}`
-                                            : "/images/placeholder-bus.png"
-                                    }
+                                    src={getImageUrl(bus.imagen) || "/images/placeholder-bus.png"}
                                     alt={bus.modelo}
                                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                 />

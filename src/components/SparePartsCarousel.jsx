@@ -4,6 +4,7 @@ import Autoplay from "embla-carousel-autoplay";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Package } from "lucide-react";
 import { BaseUrl } from "@/lib/BaseUrl";
+import { getImageUrl } from "@/lib/utils";
 import {
     Dialog,
     DialogContent,
@@ -65,7 +66,7 @@ export default function SparePartsCarousel({ parts }) {
                                     <div className="w-full h-[250px] bg-muted flex items-center justify-center overflow-hidden">
                                         {part.imagen ? (
                                             <img
-                                                src={`${BaseUrl}/uploads/${part.imagen}`}
+                                                src={getImageUrl(part.imagen)}
                                                 alt={part.nombre}
                                                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                                 onError={(e) => {
@@ -135,7 +136,7 @@ export default function SparePartsCarousel({ parts }) {
                         {selectedPart?.imagen && (
                             <div className="w-full h-48 sm:h-64 md:h-80 bg-muted rounded-lg overflow-hidden flex items-center justify-center p-4">
                                 <img
-                                    src={`${BaseUrl}/uploads/${selectedPart.imagen}`}
+                                    src={getImageUrl(selectedPart.imagen)}
                                     alt={selectedPart.nombre}
                                     className="max-w-full max-h-full object-contain"
                                     onError={(e) => {
