@@ -116,7 +116,7 @@ export default function SparePartsPage() {
                         })
 
                         worksheet.addImage(imageId, {
-                            tl: { col: 1, row: row.number - 1 }, // col 1 is 'Imagen' (0-indexed)
+                            tl: { col: 1, row: row.number - 1 },
                             ext: { width: 120, height: 120 },
                             editAs: 'oneCell'
                         })
@@ -157,28 +157,35 @@ export default function SparePartsPage() {
             try {
                 const bstr = evt.target.result
                 const wb = XLSX.read(bstr, { type: 'binary' })
-                const wsname = wb.SheetNames[0]
+
+                // Try to find "REPUESTOS" sheet, otherwise use first sheet
+                let wsname = wb.SheetNames.find(name => name.toUpperCase() === 'REPUESTOS')
+                if (!wsname) {
+                    wsname = wb.SheetNames[0]
+                }
+
                 const ws = wb.Sheets[wsname]
                 const data = XLSX.utils.sheet_to_json(ws)
+
+                console.log(`Leyendo hoja: ${wsname}`)
+                console.log(`Registros encontrados: ${data.length}`)
 
                 // Process and upload each item
                 let successCount = 0
                 let failCount = 0
 
                 for (const item of data) {
-                    // Map Excel columns to API fields (assuming headers: Nombre, Categoria, Descripcion)
+                    // Map Excel columns to API fields - support both Spanish and uppercase variants
                     const payload = {
-                        nombre: item.Nombre || item.nombre,
-                        categoria: item.Categoría || item.Categoria || item.categoria,
-                        descripcion: item.Descripción || item.Descripcion || item.descripcion,
-                        codigo: item.Código || item.Codigo || item.codigo,
-                        modelo: item.Modelo || item.modelo
+                        nombre: item.Nombre || item.NOMBRE || item.nombre,
+                        categoria: item.Categoría || item.Categoria || item.CATEGORIA || item.categoria || 'Otros',
+                        descripcion: item.Descripción || item.Descripcion || item.DESCRIPCION || item.descripcion,
+                        codigo: item.Código || item.Codigo || item.CODIGO || item.codigo,
+                        modelo: item.Modelo || item.MODELO || item.modelo
                     }
 
-                    if (payload.nombre && payload.categoria) {
+                    if (payload.nombre) {
                         try {
-                            // Using FormData because the endpoint expects multipart/form-data (due to image upload middleware)
-                            // even if we don't send an image here.
                             const formData = new FormData()
                             formData.append('nombre', payload.nombre)
                             formData.append('categoria', payload.categoria)
@@ -191,16 +198,18 @@ export default function SparePartsPage() {
                             })
                             successCount++
                         } catch (err) {
-                            console.error("Error importing item:", item, err)
+                            // Continuar incluso si hay duplicados u otros errores
+                            console.warn("Error importando item (posible duplicado):", payload.nombre, err.response?.data || err.message)
                             failCount++
                         }
                     }
                 }
 
+                // Mostrar resultado final
                 if (failCount > 0) {
-                    toast.warning(`Importación finalizada: ${successCount} creados, ${failCount} fallidos (posibles duplicados).`)
+                    toast.success(`Importación completada: ${successCount} creados. ${failCount} omitidos (posibles duplicados).`)
                 } else {
-                    toast.success(`Importación completada. ${successCount} registros creados.`)
+                    toast.success(`¡Importación exitosa! ${successCount} registros creados.`)
                 }
 
                 fetchParts()
@@ -210,11 +219,10 @@ export default function SparePartsPage() {
             }
         }
         reader.readAsBinaryString(file)
-        // Reset input
         e.target.value = null
     }
 
-    // Predefined categories for spare parts (same as in SparePartDetail)
+    // Predefined categories for spare parts
     const categories = [
         "Motor",
         "Transmisión",
@@ -311,7 +319,6 @@ export default function SparePartsPage() {
                             <option key={cat} value={cat}>{cat}</option>
                         ))}
                     </select>
-                    {/* Chevron down icon for styling */}
                     <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
                         <svg className="h-4 w-4 opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                             <path d="m6 9 6 6 6-6" />
@@ -407,17 +414,82 @@ export default function SparePartsPage() {
                             Anterior
                         </Button>
                         <div className="flex items-center gap-1">
-                            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-                                <Button
-                                    key={page}
-                                    variant={currentPage === page ? "default" : "outline"}
-                                    size="sm"
-                                    onClick={() => setCurrentPage(page)}
-                                    className="w-8 h-8 p-0"
-                                >
-                                    {page}
-                                </Button>
-                            ))}
+                            {(() => {
+                                const pages = [];
+                                const maxVisible = 5; // Máximo de páginas visibles
+
+                                if (totalPages <= maxVisible + 2) {
+                                    // Mostrar todas las páginas si son pocas
+                                    for (let i = 1; i <= totalPages; i++) {
+                                        pages.push(
+                                            <Button
+                                                key={i}
+                                                variant={currentPage === i ? "default" : "outline"}
+                                                size="sm"
+                                                onClick={() => setCurrentPage(i)}
+                                                className="w-8 h-8 p-0"
+                                            >
+                                                {i}
+                                            </Button>
+                                        );
+                                    }
+                                } else {
+                                    // Mostrar paginación inteligente con "..."
+                                    // Siempre mostrar primera página
+                                    pages.push(
+                                        <Button
+                                            key={1}
+                                            variant={currentPage === 1 ? "default" : "outline"}
+                                            size="sm"
+                                            onClick={() => setCurrentPage(1)}
+                                            className="w-8 h-8 p-0"
+                                        >
+                                            1
+                                        </Button>
+                                    );
+
+                                    if (currentPage > 3) {
+                                        pages.push(<span key="ellipsis1" className="px-2">...</span>);
+                                    }
+
+                                    // Páginas alrededor de la actual
+                                    const start = Math.max(2, currentPage - 1);
+                                    const end = Math.min(totalPages - 1, currentPage + 1);
+
+                                    for (let i = start; i <= end; i++) {
+                                        pages.push(
+                                            <Button
+                                                key={i}
+                                                variant={currentPage === i ? "default" : "outline"}
+                                                size="sm"
+                                                onClick={() => setCurrentPage(i)}
+                                                className="w-8 h-8 p-0"
+                                            >
+                                                {i}
+                                            </Button>
+                                        );
+                                    }
+
+                                    if (currentPage < totalPages - 2) {
+                                        pages.push(<span key="ellipsis2" className="px-2">...</span>);
+                                    }
+
+                                    // Siempre mostrar última página
+                                    pages.push(
+                                        <Button
+                                            key={totalPages}
+                                            variant={currentPage === totalPages ? "default" : "outline"}
+                                            size="sm"
+                                            onClick={() => setCurrentPage(totalPages)}
+                                            className="w-8 h-8 p-0"
+                                        >
+                                            {totalPages}
+                                        </Button>
+                                    );
+                                }
+
+                                return pages;
+                            })()}
                         </div>
                         <Button
                             variant="outline"

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+﻿import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { Plus, Search, Pencil, Trash2, Download, QrCode } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -38,6 +38,7 @@ export default function InventoryPage() {
         fetchBuses()
     }, [])
 
+    // ---------- API ----------
     const fetchBuses = async () => {
         try {
             const { data } = await axios.get("/autobuses")
@@ -59,6 +60,7 @@ export default function InventoryPage() {
         }
     }
 
+    // ---------- PDF Generation ----------
     const handleDownloadPDF = async (bus) => {
         try {
             const { default: jsPDF } = await import('jspdf')
@@ -67,11 +69,13 @@ export default function InventoryPage() {
             const pageHeight = doc.internal.pageSize.getHeight()
             let yPos = 20
 
+            // TÃ­tulo principal
             doc.setFontSize(26)
             doc.setFont(undefined, 'bold')
             doc.text(`${bus.marca} ${bus.modelo}`, pageWidth / 2, yPos, { align: 'center' })
             yPos += 12
 
+            // Uso (si existe)
             if (bus.uso) {
                 doc.setFontSize(14)
                 doc.setFont(undefined, 'normal')
@@ -82,6 +86,7 @@ export default function InventoryPage() {
 
             doc.setTextColor(0, 0, 0)
 
+            // DescripciÃ³n
             if (bus.descripcion) {
                 doc.setFontSize(10)
                 doc.setTextColor(80, 80, 80)
@@ -91,6 +96,7 @@ export default function InventoryPage() {
                 doc.setTextColor(0, 0, 0)
             }
 
+            // Imagen del vehÃ­culo con borde redondeado
             if (bus.imagen) {
                 try {
                     const imgUrl = getImageUrl(bus.imagen)
@@ -107,8 +113,10 @@ export default function InventoryPage() {
                                 imgWidth = (img.width * maxHeight) / img.height
                             }
                             const imgX = (pageWidth - imgWidth) / 2
+                            // Dibujar borde gris redondeado
                             doc.setDrawColor(120, 120, 120)
                             doc.roundedRect(imgX - 2, yPos - 2, imgWidth + 4, imgHeight + 4, 4, 4)
+                            // AÃ±adir la imagen
                             doc.addImage(img, 'JPEG', imgX, yPos, imgWidth, imgHeight)
                             yPos += imgHeight + 15
                             resolve()
@@ -124,13 +132,15 @@ export default function InventoryPage() {
                 }
             }
 
+            // Separador
             doc.setDrawColor(200, 200, 200)
             doc.line(20, yPos, pageWidth - 20, yPos)
             yPos += 15
 
+            // Especificaciones TÃ©cnicas
             doc.setFontSize(16)
             doc.setFont(undefined, 'bold')
-            doc.text('Especificaciones Técnicas', 20, yPos)
+            doc.text('Especificaciones TÃ©cnicas', 20, yPos)
             yPos += 10
             doc.setFontSize(11)
             doc.setFont(undefined, 'normal')
@@ -139,10 +149,10 @@ export default function InventoryPage() {
                 { label: 'Asientos', value: bus.asientos },
                 { label: 'Puertas', value: bus.puertas },
                 { label: 'Motor', value: bus.motor },
-                { label: 'Transmisión', value: bus.transmision },
+                { label: 'TransmisiÃ³n', value: bus.transmision },
                 { label: 'Combustible', value: bus.combustible },
-                { label: 'Neumáticos', value: bus.neumaticos },
-                { label: 'Dirección', value: bus.direccion },
+                { label: 'NeumÃ¡ticos', value: bus.neumaticos },
+                { label: 'DirecciÃ³n', value: bus.direccion },
             ]
 
             const colWidth = (pageWidth - 40) / 2
@@ -166,18 +176,20 @@ export default function InventoryPage() {
             })
             if (col !== 0) yPos += 16
 
+            // Footer CTA
             yPos = pageHeight - 35
             doc.setFillColor(239, 246, 255)
             doc.roundedRect(15, yPos - 5, pageWidth - 30, 28, 3, 3, 'F')
             doc.setFontSize(11)
             doc.setFont(undefined, 'bold')
             doc.setTextColor(30, 64, 175)
-            doc.text('Visita nuestra plataforma para más información', pageWidth / 2, yPos + 5, { align: 'center' })
+            doc.text('Visita nuestra plataforma para mÃ¡s informaciÃ³n', pageWidth / 2, yPos + 5, { align: 'center' })
             doc.setFont(undefined, 'normal')
             doc.setFontSize(9)
             doc.setTextColor(60, 60, 60)
-            doc.text('Catálogo completo de vehículos y repuestos disponibles', pageWidth / 2, yPos + 13, { align: 'center' })
+            doc.text('CatÃ¡logo completo de vehÃ­culos y repuestos disponibles', pageWidth / 2, yPos + 13, { align: 'center' })
 
+            // Guardar PDF
             doc.save(`Ficha-${bus.marca}-${bus.modelo}.pdf`)
         } catch (error) {
             console.error('Error generating PDF:', error)
@@ -190,11 +202,13 @@ export default function InventoryPage() {
         bus.marca?.toLowerCase().includes(searchTerm.toLowerCase())
     )
 
+    // Pagination logic
     const totalPages = Math.ceil(filteredBuses.length / itemsPerPage)
     const startIndex = (currentPage - 1) * itemsPerPage
     const endIndex = startIndex + itemsPerPage
     const paginatedBuses = filteredBuses.slice(startIndex, endIndex)
 
+    // Reset to page 1 when search changes
     useEffect(() => {
         setCurrentPage(1)
     }, [searchTerm])
@@ -215,7 +229,7 @@ export default function InventoryPage() {
                     className="bg-blue-600 hover:bg-blue-700"
                     onClick={() => navigate("/dashboard/inventory/new")}
                 >
-                    <Plus className="mr-2 h-4 w-4" /> Registrar Nuevo Autobús
+                    <Plus className="mr-2 h-4 w-4" /> Registrar Nuevo AutobÃºs
                 </Button>
             </div>
 
@@ -298,115 +312,9 @@ export default function InventoryPage() {
                             variant="outline"
                             size="sm"
                             onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                            disabled={currentPage === 1}
-                        >
-                            Anterior
-                        </Button>
-                        <div className="flex items-center gap-1">
-                            {(() => {
-                                const pages = [];
-                                const maxVisible = 5;
-
-                                if (totalPages <= maxVisible + 2) {
-                                    for (let i = 1; i <= totalPages; i++) {
-                                        pages.push(
-                                            <Button
-                                                key={i}
-                                                variant={currentPage === i ? "default" : "outline"}
-                                                size="sm"
-                                                onClick={() => setCurrentPage(i)}
-                                                className="w-8 h-8 p-0"
-                                            >
-                                                {i}
-                                            </Button>
-                                        );
-                                    }
-                                } else {
-                                    pages.push(
-                                        <Button
-                                            key={1}
-                                            variant={currentPage === 1 ? "default" : "outline"}
-                                            size="sm"
-                                            onClick={() => setCurrentPage(1)}
-                                            className="w-8 h-8 p-0"
-                                        >
-                                            1
-                                        </Button>
-                                    );
-
-                                    if (currentPage > 3) {
-                                        pages.push(<span key="ellipsis1" className="px-2">...</span>);
-                                    }
-
-                                    const start = Math.max(2, currentPage - 1);
-                                    const end = Math.min(totalPages - 1, currentPage + 1);
-
-                                    for (let i = start; i <= end; i++) {
-                                        pages.push(
-                                            <Button
-                                                key={i}
-                                                variant={currentPage === i ? "default" : "outline"}
-                                                size="sm"
-                                                onClick={() => setCurrentPage(i)}
-                                                className="w-8 h-8 p-0"
-                                            >
-                                                {i}
-                                            </Button>
-                                        );
-                                    }
-
-                                    if (currentPage < totalPages - 2) {
-                                        pages.push(<span key="ellipsis2" className="px-2">...</span>);
-                                    }
-
-                                    pages.push(
-                                        <Button
-                                            key={totalPages}
-                                            variant={currentPage === totalPages ? "default" : "outline"}
-                                            size="sm"
-                                            onClick={() => setCurrentPage(totalPages)}
-                                            className="w-8 h-8 p-0"
-                                        >
-                                            {totalPages}
-                                        </Button>
-                                    );
-                                }
-
-                                return pages;
-                            })()}
-                        </div>
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-                            disabled={currentPage === totalPages}
-                        >
-                            Siguiente
-                        </Button>
-                    </div>
-                )}
-            </div>
-
-            {/* Delete Confirmation Dialog */}
-            <AlertDialog open={deleteId !== null} onOpenChange={() => setDeleteId(null)}>
-                <AlertDialogContent>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle>¿Estás seguro?</AlertDialogTitle>
                         <AlertDialogDescription>
-                            Esta acción no se puede deshacer. El autobús será eliminado permanentemente de la base de datos.
+                            Esta acciÃ³n no se puede deshacer. El autobÃºs serÃ¡ eliminado permanentemente de la base de datos.
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                         <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                        <AlertDialogAction
-                            onClick={() => handleDelete(deleteId)}
-                            className="bg-destructive hover:bg-destructive/90"
-                        >
-                            Eliminar
-                        </AlertDialogAction>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
-        </div>
-    )
-}
