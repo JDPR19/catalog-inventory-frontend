@@ -90,12 +90,12 @@ export default function LandingPage() {
                             Contacto
                         </a>
                     </nav>
-                    <div className="flex items-center gap-4">
+                    {/* <div className="flex items-center gap-4">
                         <ModeToggle />
                         <Link to="/login">
                             <Button>Iniciar Sesión</Button>
                         </Link>
-                    </div>
+                    </div> */}
                 </div>
             </header>
 
@@ -110,16 +110,62 @@ export default function LandingPage() {
                         />
                     </div>
                     <div className="relative z-10 container px-4">
-                        {/* <h2 className="text-sm font-bold tracking-widest mb-4 text-blue-950 uppercase">Yutong Venezuela</h2> */}
                         <h1 className="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight text-white">
                             Movilidad que Transforma
                         </h1>
                         <p className="text-lg md:text-xl max-w-2xl mx-auto mb-8 text-gray-100">
                             Descubre la ingeniería, diseño y tecnología que nos posicionan como líderes en soluciones de transporte para Venezuela.
                         </p>
-                        <Button size="lg" className="bg-blue-950 hover:bg-blue-800 text-white border-none rounded-full px-8">
-                            EXPLORAR MODELOS
-                        </Button>
+                        <div className="flex flex-wrap justify-center gap-4 mt-8">
+                            <Button
+                                size="lg"
+                                className="bg-blue-950 hover:bg-blue-800 text-white border-none rounded-full px-8"
+                                onClick={() => {
+                                    const link = document.createElement('a');
+                                    link.href = '/fichas/ficha-modelo-1.pdf';
+                                    link.download = 'Ficha-Modelo-1.pdf';
+                                    link.click();
+                                }}
+                            >
+                                MODELO 1
+                            </Button>
+                            <Button
+                                size="lg"
+                                className="bg-blue-950 hover:bg-blue-800 text-white border-none rounded-full px-8"
+                                onClick={() => {
+                                    const link = document.createElement('a');
+                                    link.href = '/fichas/ficha-modelo-2.pdf';
+                                    link.download = 'Ficha-Modelo-2.pdf';
+                                    link.click();
+                                }}
+                            >
+                                MODELO 2
+                            </Button>
+                            <Button
+                                size="lg"
+                                className="bg-blue-950 hover:bg-blue-800 text-white border-none rounded-full px-8"
+                                onClick={() => {
+                                    const link = document.createElement('a');
+                                    link.href = '/fichas/ficha-modelo-3.pdf';
+                                    link.download = 'Ficha-Modelo-3.pdf';
+                                    link.click();
+                                }}
+                            >
+                                MODELO 3
+                            </Button>
+                            <Button
+                                size="lg"
+                                className="bg-blue-950 hover:bg-blue-800 text-white border-none rounded-full px-8"
+                                onClick={() => {
+                                    const link = document.createElement('a');
+                                    link.href = '/fichas/ficha-modelo-4.pdf';
+                                    link.download = 'Ficha-Modelo-4.pdf';
+                                    link.click();
+                                }}
+                            >
+                                MODELO 4
+                            </Button>
+                        </div>
                     </div>
                 </section>
 
@@ -192,7 +238,7 @@ export default function LandingPage() {
                         <div className="flex gap-4">
                             {/* GitHub Link */}
                             <a
-                                href="https://github.com/JDPR19/"
+                                href="https://cvjdpr.vercel.app/"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-slate-700 transition-colors p-2"

@@ -22,6 +22,8 @@ export default function SparePartDetail() {
         nombre: "",
         categoria: "",
         descripcion: "",
+        codigo: "",
+        modelo: "",
         imagen: null
     })
     const [previewUrl, setPreviewUrl] = useState(null)
@@ -53,6 +55,8 @@ export default function SparePartDetail() {
                 nombre: data.nombre,
                 categoria: data.categoria,
                 descripcion: data.descripcion || "",
+                codigo: data.codigo || "",
+                modelo: data.modelo || "",
                 imagen: null // Don't set file object, just keep reference if needed or handle preview
             })
             if (data.imagen) {
@@ -99,6 +103,8 @@ export default function SparePartDetail() {
             data.append("nombre", formData.nombre)
             data.append("categoria", formData.categoria)
             data.append("descripcion", formData.descripcion)
+            data.append("codigo", formData.codigo)
+            data.append("modelo", formData.modelo)
 
             if (formData.imagen) {
                 data.append("imagen", formData.imagen)
@@ -155,6 +161,30 @@ export default function SparePartDetail() {
                                 placeholder="Ej. Filtro de Aceite"
                                 required
                             />
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                                <Label htmlFor="codigo">Código</Label>
+                                <Input
+                                    id="codigo"
+                                    name="codigo"
+                                    value={formData.codigo}
+                                    onChange={handleChange}
+                                    placeholder="Ej. RP-001"
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label htmlFor="modelo">Modelo</Label>
+                                <Input
+                                    id="modelo"
+                                    name="modelo"
+                                    value={formData.modelo}
+                                    onChange={handleChange}
+                                    placeholder="Ej. ZK6122H9"
+                                />
+                            </div>
                         </div>
 
                         <div className="space-y-2">

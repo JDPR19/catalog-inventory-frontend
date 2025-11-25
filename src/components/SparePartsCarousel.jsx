@@ -148,6 +148,22 @@ export default function SparePartsCarousel({ parts }) {
                                 )}
                             </div>
                         )}
+                        {(selectedPart?.codigo || selectedPart?.modelo) && (
+                            <div className="grid grid-cols-2 gap-4">
+                                {selectedPart?.codigo && (
+                                    <div>
+                                        <h4 className="font-semibold mb-1 text-sm">Código</h4>
+                                        <p className="text-muted-foreground text-sm">{selectedPart.codigo}</p>
+                                    </div>
+                                )}
+                                {selectedPart?.modelo && (
+                                    <div>
+                                        <h4 className="font-semibold mb-1 text-sm">Modelo</h4>
+                                        <p className="text-muted-foreground text-sm">{selectedPart.modelo}</p>
+                                    </div>
+                                )}
+                            </div>
+                        )}
                         <div>
                             <h4 className="font-semibold mb-2">Descripción</h4>
                             <p className="text-muted-foreground text-sm">

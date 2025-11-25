@@ -78,6 +78,8 @@ export default function SparePartsPage() {
                 { header: '#', key: 'index', width: 10 },
                 { header: 'Imagen', key: 'image', width: 20 },
                 { header: 'Nombre', key: 'nombre', width: 30 },
+                { header: 'Código', key: 'codigo', width: 15 },
+                { header: 'Modelo', key: 'modelo', width: 20 },
                 { header: 'Categoría', key: 'categoria', width: 20 },
                 { header: 'Descripción', key: 'descripcion', width: 50 },
             ]
@@ -88,6 +90,8 @@ export default function SparePartsPage() {
                 const row = worksheet.addRow({
                     index: i + 1,
                     nombre: part.nombre,
+                    codigo: part.codigo,
+                    modelo: part.modelo,
                     categoria: part.categoria,
                     descripcion: part.descripcion
                 })
@@ -166,7 +170,9 @@ export default function SparePartsPage() {
                     const payload = {
                         nombre: item.Nombre || item.nombre,
                         categoria: item.Categoría || item.Categoria || item.categoria,
-                        descripcion: item.Descripción || item.Descripcion || item.descripcion
+                        descripcion: item.Descripción || item.Descripcion || item.descripcion,
+                        codigo: item.Código || item.Codigo || item.codigo,
+                        modelo: item.Modelo || item.modelo
                     }
 
                     if (payload.nombre && payload.categoria) {
@@ -177,6 +183,8 @@ export default function SparePartsPage() {
                             formData.append('nombre', payload.nombre)
                             formData.append('categoria', payload.categoria)
                             if (payload.descripcion) formData.append('descripcion', payload.descripcion)
+                            if (payload.codigo) formData.append('codigo', payload.codigo)
+                            if (payload.modelo) formData.append('modelo', payload.modelo)
 
                             await axios.post("/repuestos", formData, {
                                 headers: { 'Content-Type': 'multipart/form-data' }
@@ -221,7 +229,9 @@ export default function SparePartsPage() {
 
     const filteredParts = parts.filter(part => {
         const matchesSearch = part.nombre?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            part.descripcion?.toLowerCase().includes(searchTerm.toLowerCase())
+            part.descripcion?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            part.codigo?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            part.modelo?.toLowerCase().includes(searchTerm.toLowerCase())
         const matchesCategory = categoryFilter === "all" || part.categoria === categoryFilter
         return matchesSearch && matchesCategory
     })
@@ -316,6 +326,8 @@ export default function SparePartsPage() {
                         <TableRow>
                             <TableHead className="w-[100px]">IMAGEN</TableHead>
                             <TableHead>NOMBRE</TableHead>
+                            <TableHead>CÓDIGO</TableHead>
+                            <TableHead>MODELO</TableHead>
                             <TableHead>CATEGORÍA</TableHead>
                             <TableHead>DESCRIPCIÓN</TableHead>
                             <TableHead className="text-right">ACCIONES</TableHead>
@@ -324,7 +336,7 @@ export default function SparePartsPage() {
                     <TableBody>
                         {paginatedParts.length === 0 ? (
                             <TableRow>
-                                <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
+                                <TableCell colSpan={7} className="text-center text-muted-foreground py-8">
                                     No se encontraron repuestos
                                 </TableCell>
                             </TableRow>
@@ -352,6 +364,8 @@ export default function SparePartsPage() {
                                         </div>
                                     </TableCell>
                                     <TableCell className="font-medium">{part.nombre}</TableCell>
+                                    <TableCell className="text-sm text-muted-foreground">{part.codigo || "-"}</TableCell>
+                                    <TableCell className="text-sm text-muted-foreground">{part.modelo || "-"}</TableCell>
                                     <TableCell>
                                         <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80">
                                             {part.categoria}

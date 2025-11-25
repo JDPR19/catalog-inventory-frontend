@@ -158,12 +158,12 @@ export default function LoginPage() {
                                 {loading ? "Iniciando sesión..." : "Iniciar Sesión"}
                             </Button>
 
-                            <div className="text-center text-sm text-muted-foreground">
+                            {/* <div className="text-center text-sm text-muted-foreground">
                                 ¿No tienes una cuenta?{" "}
                                 <Link to="/register" className="text-blue-950 dark:text-white hover:text-blue-800 dark:hover:text-gray-200 font-medium">
                                     Regístrate aquí
                                 </Link>
-                            </div>
+                            </div> */}
                         </form>
                     </CardContent>
                 </Card>
