@@ -90,12 +90,12 @@ export default function LandingPage() {
                             Contacto
                         </a>
                     </nav>
-                    {/* <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-4">
                         <ModeToggle />
-                        <Link to="/login">
+                        {/* <Link to="/login">
                             <Button>Iniciar Sesión</Button>
-                        </Link>
-                    </div> */}
+                        </Link> */}
+                    </div>
                 </div>
             </header>
 
@@ -104,66 +104,66 @@ export default function LandingPage() {
                 <section className="relative h-[600px] flex items-center justify-center text-center text-white overflow-hidden">
                     <div className="absolute inset-0 z-0">
                         <img
-                            src={icon.entrada}
+                            src={icon.entrada2}
                             alt="Yutong Bus Hero"
                             className="w-full h-full object-cover brightness-50"
                         />
                     </div>
                     <div className="relative z-10 container px-4">
-                        <h1 className="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight text-white">
+                        <h1 className="text-5xl md:text-7xl font-extrabold mt-28 tracking-tight text-white">
                             Movilidad que Transforma
                         </h1>
-                        <p className="text-lg md:text-xl max-w-2xl mx-auto mb-8 text-gray-100">
+                        <p className="text-lg md:text-xl max-w-2xl mx-auto mt-24 text-gray-100">
                             Descubre la ingeniería, diseño y tecnología que nos posicionan como líderes en soluciones de transporte para Venezuela.
                         </p>
-                        <div className="flex flex-wrap justify-center gap-4 mt-8">
+                        <div className="flex flex-wrap justify-center gap-4 mt-36 mb-12">
                             <Button
                                 size="lg"
                                 className="bg-blue-950 hover:bg-blue-800 text-white border-none rounded-full px-8"
                                 onClick={() => {
                                     const link = document.createElement('a');
-                                    link.href = '/fichas/ficha-modelo-1.pdf';
-                                    link.download = 'Ficha-Modelo-1.pdf';
+                                    link.href = icon.ficha3;
+                                    link.download = 'Ficha-Modelo-ZK6907H.jpg';
                                     link.click();
                                 }}
                             >
-                                MODELO 1
+                                ZK6907H
                             </Button>
                             <Button
                                 size="lg"
                                 className="bg-blue-950 hover:bg-blue-800 text-white border-none rounded-full px-8"
                                 onClick={() => {
                                     const link = document.createElement('a');
-                                    link.href = '/fichas/ficha-modelo-2.pdf';
-                                    link.download = 'Ficha-Modelo-2.pdf';
+                                    link.href = icon.ficha1;
+                                    link.download = 'Ficha-Modelo-ZK6852HG.jpg';
                                     link.click();
                                 }}
                             >
-                                MODELO 2
+                                ZK6852HG
                             </Button>
                             <Button
                                 size="lg"
                                 className="bg-blue-950 hover:bg-blue-800 text-white border-none rounded-full px-8"
                                 onClick={() => {
                                     const link = document.createElement('a');
-                                    link.href = '/fichas/ficha-modelo-3.pdf';
-                                    link.download = 'Ficha-Modelo-3.pdf';
+                                    link.href = icon.ficha2;
+                                    link.download = 'Ficha-Modelo-ZK6729D2.jpg';
                                     link.click();
                                 }}
                             >
-                                MODELO 3
+                                ZK6729D2
                             </Button>
                             <Button
                                 size="lg"
                                 className="bg-blue-950 hover:bg-blue-800 text-white border-none rounded-full px-8"
                                 onClick={() => {
                                     const link = document.createElement('a');
-                                    link.href = '/fichas/ficha-modelo-4.pdf';
-                                    link.download = 'Ficha-Modelo-4.pdf';
+                                    link.href = icon.ficha4;
+                                    link.download = 'Ficha-Modelo-ZK6126HG.jpg';
                                     link.click();
                                 }}
                             >
-                                MODELO 4
+                                ZK6126HG
                             </Button>
                         </div>
                     </div>
@@ -173,7 +173,7 @@ export default function LandingPage() {
                 <section id="modelos" className="py-20 bg-muted/30">
                     <div className="container mx-auto px-4">
                         <div className="text-center mb-12">
-                            <h2 className="text-4xl font-bold mb-4">Nuestra Flota Completa</h2>
+                            <h2 className="text-4xl font-bold mb-4">Nuestra Flota</h2>
                             <p className="text-muted-foreground">Explora todas las opciones disponibles para tu empresa.</p>
                         </div>
                         {loading ? (
@@ -230,12 +230,75 @@ export default function LandingPage() {
                         <ul className="space-y-2 text-slate-400 text-sm">
                             <li>Av. Principal, Zona Industrial</li>
                             <li>San Felipe, Yaracuy, Venezuela</li>
-                            <li>info@yutong.com.ve</li>
+                            <li>Comercializacionyutong@gmail.com</li>
+                        </ul>
+
+                        <h4 className="font-bold mb-4 mt-2">Soporte Técnico</h4>
+                        <ul className="space-y-2 text-slate-400 text-sm">
+                            <li>Oficina de Tecnología Información y Comunicación</li>
+                            <li>oticyutong@gmail.com</li>
                         </ul>
                     </div>
                     <div>
                         <h4 className="font-bold mb-4">Síguenos</h4>
                         <div className="flex gap-4">
+
+                            {/* Tiktok Link */}
+                            <a
+                                href="https://www.tiktok.com/@plantayutong_ve?_r=1&_t=ZM-91hdWxFniih"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-slate-700 transition-colors p-2"
+                            >
+                                <img src={icon.tiktok} alt="Tiktok" className="w-full h-full object-contain" />
+                            </a>
+                            {/* instagram Link */}
+                            <a
+                                href="https://www.instagram.com/plantayutong_ve?igsh=NTFjMmZ5MWphOHZh"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-slate-700 transition-colors p-2"
+                            >
+                                <img src={icon.instragran2} alt="Instagram" className="w-full h-full object-contain" />
+                            </a>
+                            {/* gmail Link */}
+                            <a
+                                href="mailto:Comercializacionyutong@gmail.com?subject=Solicitud%20de%20información&body=Hola,%20quisiera%20saber%20más%20sobre..."
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-slate-700 transition-colors p-2"
+                            >
+                                <img src={icon.gmail} alt="Gmail" className="w-full h-full object-contain" />
+                            </a>
+                            {/* whatsapp Link */}
+                            <a
+                                href="https://wa.me/584125288171?text=Hola,%20necesito%20información%20sobre%20Catalog%20Inventory"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-slate-700 transition-colors p-2"
+                            >
+                                <img src={icon.whatsapp} alt="WhatsApp" className="w-full h-full object-contain" />
+                            </a>
+                        </div>
+                        <div className="flex gap-4 mt-4">
+                            {/* Telegrama Link */}
+                            <a
+                                href="https://t.me/BadOmensDEV"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-slate-700 transition-colors p-2"
+                            >
+                                <img src={icon.telegrama} alt="Telegrama" className="w-full h-full object-contain" />
+                            </a>
+                            {/* whatsapp Link */}
+                            <a
+                                href="https://wa.me/584161698315?text=Hola,%20necesito%20información%20sobre%20Catalog%20Inventory%20Soporte%20BadDevPrograming"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-slate-700 transition-colors p-2"
+                            >
+                                <img src={icon.whatsapp} alt="WhatsApp" className="w-full h-full object-contain" />
+                            </a>
                             {/* GitHub Link */}
                             <a
                                 href="https://cvjdpr.vercel.app/"

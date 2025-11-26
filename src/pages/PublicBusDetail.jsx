@@ -196,7 +196,7 @@ export default function PublicBusDetail() {
                 {/* Footer */}
                 <div className="mt-12 text-center text-sm text-muted-foreground">
                     <Separator className="mb-4" />
-                    <p>© 2024 Yutong Venezuela - Sistema de Gestión de Catálogo e Inventario</p>
+                    <p> © 2025 Planta de Autobuses Yutong Venezuela. Todos los derechos reservados. Sistema de Gestión de Catálogo e Inventario</p>
                 </div>
             </main>
         </div>
