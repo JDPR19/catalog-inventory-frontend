@@ -116,7 +116,7 @@ export default function LandingPage() {
                         <p className="text-lg md:text-xl max-w-2xl mx-auto mt-24 text-gray-100">
                             Descubre la ingeniería, diseño y tecnología que nos posicionan como líderes en soluciones de transporte para Venezuela.
                         </p>
-                        <div className="flex flex-wrap justify-center gap-4 mt-36 mb-12">
+                        <div className="flex flex-wrap justify-center gap-4 mt-28 mb-12">
                             <Button
                                 size="lg"
                                 className="bg-blue-950 hover:bg-blue-800 text-white border-none rounded-full px-8"
@@ -292,7 +292,7 @@ export default function LandingPage() {
                             </a>
                             {/* whatsapp Link */}
                             <a
-                                href="https://wa.me/584161698315?text=Hola,%20necesito%20información%20sobre%20Catalog%20Inventory%20Soporte%20BadDevPrograming"
+                                href="https://wa.me/584121698315?text=Hola,%20necesito%20información%20sobre%20Catalog%20Inventory%20Soporte%20BadDevPrograming"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-slate-700 transition-colors p-2"

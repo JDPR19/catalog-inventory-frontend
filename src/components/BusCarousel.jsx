@@ -48,11 +48,11 @@ export default function BusCarousel({ buses }) {
     return (
         <div className="relative">
             <div className="overflow-hidden" ref={emblaRef}>
-                <div className="flex gap-6">
+                <div className="flex gap-4">
                     {buses.map((bus) => (
                         <div
                             key={bus.id}
-                            className="flex-[0_0_100%] min-w-0 sm:flex-[0_0_50%] lg:flex-[0_0_33.333%]"
+                            className="flex-[0_0_100%] min-w-0 sm:flex-[0_0_50%] lg:flex-[0_0_33.333%] px-4"
                         >
                             <div className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all h-[450px]">
                                 <img
